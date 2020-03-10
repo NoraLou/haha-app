@@ -10,7 +10,12 @@ class Joke extends Component {
 
     return (
       <li className="joke">
-        {joke}
+        <div className="joke-score">
+          {joke.score}
+        </div>
+        <div className="joke-text">
+          {joke.joke}
+        </div>
       </li>
      );
   }

@@ -10,6 +10,7 @@ class JokeList extends Component {
   constructor(props) {
     super(props);
     this.state = { jokes: [] };
+    this.handleVote = this.handleVote.bind(this);
   }
 
   async componentDidMount() {
@@ -28,15 +29,14 @@ class JokeList extends Component {
     this.setState({jokes})
   }
 
-  handleVote(id,action) {
-    const { jokes } = this.state;
-    const votedJokes = jokes.map( id => {
-      if (joke.id === id) {
-       joke.score = (action === 'plus') ? joke.score++ : joke.score--;
-      }
-      return joke
-    });
-    this.setState({jokes: upVotedJokes});
+  handleVote(id, delta) {
+    this.setState(
+      st => ({
+        jokes: st.jokes.map(j =>
+          j.id === id ? {...j, score: j.score + delta } : j
+        )
+      })
+    );
   }
 
   render() {
@@ -52,9 +52,9 @@ class JokeList extends Component {
           </div>
         </div>
         <ul className="joke-list-jokes">
-          { jokes.map((j)=> (
-            <Joke key={j.id} joke={j.joke}/>
-          ))}
+          { jokes.map((joke)=> (
+            <Joke key={joke.id} joke={joke} handleVote={this.handleVote}/>
+          )) }
         </ul>
       </div>
      );
