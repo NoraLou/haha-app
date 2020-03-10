@@ -1,0 +1,63 @@
+.App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(
+    135deg,
+    rgba(176,224,230, 1) 0%,
+    rgba(176,224,230, 1) 50%,
+    rgba(250,235,215, 1) 50%,
+    rgba(250,235,215, 1) 100%,
+  );
+}
+
+
+.joke-list {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  height: 80%;
+  border: red solid 2px;
+}
+
+.joke-list-sidebar {
+  background-color:lightslategray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 100%;
+  text-align: center;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.1),
+    inset 0 0 25px lightslategray;
+  z-index: 2;
+}
+
+.joke-list-jokes {
+  background:whitesmoke;
+  display: flex;
+  border: blue 2px solid;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 70%;
+  align-self: center;
+  overflow-y: scroll;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.1);
+
+  li {
+    display: flex;
+    border-bottom: 2px solid #eeeeee;
+    align-items: center;
+    font-weight: 400;
+    padding: 20px;
+    color:darkslategray;
+    background:whitesmoke;
+    border-bottom: solid 1px slategray;
+
+  }
+}
+
