@@ -1,30 +1,38 @@
 import React, { Component } from 'react';
 import Joke from './Joke';
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 
 class JokeList extends Component {
   static defaultProps ={
-    numJokesToGet: 10
+    numJokesToGet: 12
   };
 
   constructor(props) {
     super(props);
-    this.state = { jokes: [] };
+    this.state = {
+      jokes: []
+    };
     this.handleVote = this.handleVote.bind(this);
+    this.seenJokes = new Set()
   }
 
-  async componentDidMount() {
+
+
+  //change joke data structure to a set
+  async componentDidMount(){
     let jokes = [];
     while(jokes.length < this.props.numJokesToGet) {
       let res = await axios.get("https://icanhazdadjoke.com",{
         headers: { Accept: "application/json"}
       });
       let joke = {
-       id : res.data.id,
-       joke: res.data.joke,
-       score: 0,
+        id: uuidv4(),
+        joke: res.data.joke,
+        score: 0,
       }
-      jokes.push(joke);
+      if (!this.seenJokes.has(joke))
+      jokes.push(joke)
     }
     this.setState({jokes})
   }
@@ -33,14 +41,15 @@ class JokeList extends Component {
     this.setState(
       st => ({
         jokes: st.jokes.map(j =>
-          j.id === id ? {...j, score: j.score + delta } : j
+          j.id === id ? {...j, score: j.score + delta} : j
         )
       })
-    );
+    )
   }
 
   render() {
-    const { jokes } = this.state;
+
+    const jokes = this.state.jokes ? [...this.state.jokes ] : [];
 
     return (
       <div className="joke-list">
@@ -53,8 +62,13 @@ class JokeList extends Component {
         </div>
         <ul className="joke-list-jokes">
           { jokes.map((joke)=> (
-            <Joke key={joke.id} joke={joke} handleVote={this.handleVote}/>
-          )) }
+            <Joke
+              key={joke.id}
+              joke={joke}
+              upVote={()=>this.handleVote(joke.id, 1)}
+              downVote={()=>this.handleVote(joke.id, -1)}
+            />
+          ))}
         </ul>
       </div>
      );

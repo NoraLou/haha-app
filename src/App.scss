@@ -20,6 +20,7 @@ $base-spacing : 20px;
   width: 80%;
   height: 80%;
   border: red solid 2px;
+  // background: whitesmoke;
 }
 
 .joke-list-sidebar {
@@ -45,33 +46,31 @@ $base-spacing : 20px;
   margin: 0;
   padding: 0;
   width: 70%;
-  height: 90%;
+  height: 100%;
   align-self: center;
   justify-content: center;
-  overflow-y: scroll;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: scroll;
 }
 
 .joke {
+  flex: 1 auto 5rem;
   display: flex;
-  border-bottom: 2px solid #eeeeee;
+  flex-direction: row;
   align-items: center;
   font-weight: 400;
   color:darkslategray;
-  background:whitesmoke;
   border-bottom: solid 1px slategray;
-  &:first-of-type {
-    border-top: solid 1px slategray;
-  }
 
   .joke-score {
-    border: solid 1px blue;
-    padding: $base-spacing;
+    display: flex;
+    align-items: center;
+    flex: 0 0 5rem;
+    justify-content: space-between;
+    padding:0 1rem 0 1rem;
   }
-
   .joke-text {
-    border: solid 1px red;
-    padding: $base-spacing;
+    padding:0 1rem 0 1rem;
   }
 
 }

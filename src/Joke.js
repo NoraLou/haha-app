@@ -11,7 +11,9 @@ class Joke extends Component {
     return (
       <li className="joke">
         <div className="joke-score">
+          <i className='fas fa-arrow-up' onClick={this.props.upVote} />
           {joke.score}
+          <i className='fas fa-arrow-down' onClick={this.props.downVote} />
         </div>
         <div className="joke-text">
           {joke.joke}
