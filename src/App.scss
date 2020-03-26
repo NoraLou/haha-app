@@ -19,8 +19,6 @@ $base-spacing : 20px;
   align-items: center;
   width: 80%;
   height: 80%;
-  border: red solid 2px;
-  // background: whitesmoke;
 }
 
 .joke-list-sidebar {
@@ -54,7 +52,7 @@ $base-spacing : 20px;
 }
 
 .joke {
-  flex: 1 auto 5rem;
+  flex: 1 0 5rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -73,6 +71,28 @@ $base-spacing : 20px;
     padding:0 1rem 0 1rem;
   }
 
+}
+
+
+#loader {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: transparent;
+  border-top: 5px black solid;
+  border-right: 5px #ccc solid;
+  border-left: 5px #ccc solid;
+  border-bottom: 5px #ccc solid;
+  animation: rotate .8s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 

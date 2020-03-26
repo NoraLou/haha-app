@@ -11,16 +11,24 @@ class JokeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jokes: []
+      jokes: JSON.parse(window.localStorage.getItem("jokes") || "[]" ),
+      loading: false
     };
     this.handleVote = this.handleVote.bind(this);
-    this.seenJokes = new Set()
+    this.handleClick = this.handleClick.bind(this);
+    this.seenJokes = new Set(this.state.jokes.map(j=> j.joke));
   }
 
+  componentDidMount() {
+    if (this.state.jokes.length === 0 ) {
+      this.getJokes()
+    }
+  }
 
-
-  //change joke data structure to a set
-  async componentDidMount(){
+  async getJokes() {
+    this.setState({
+      loading: true
+    })
     let jokes = [];
     while(jokes.length < this.props.numJokesToGet) {
       let res = await axios.get("https://icanhazdadjoke.com",{
@@ -31,10 +39,19 @@ class JokeList extends Component {
         joke: res.data.joke,
         score: 0,
       }
-      if (!this.seenJokes.has(joke))
-      jokes.push(joke)
+      if (!this.seenJokes.has(joke)) {
+        this.seenJokes.add(joke)
+        jokes.push(joke)
+      }
     }
-    this.setState({jokes})
+    this.setState(
+      st => ({
+        loading: false,
+        jokes: [...st.jokes, ...jokes]
+      }),
+      () =>
+        window.localStorage.setItem("jokes", JSON.stringify(this.state.jokes))
+    )
   }
 
   handleVote(id, delta) {
@@ -47,9 +64,21 @@ class JokeList extends Component {
     )
   }
 
+  handleClick() {
+    this.getJokes();
+  }
+
   render() {
 
-    const jokes = this.state.jokes ? [...this.state.jokes ] : [];
+    if (this.state.loading) {
+      return (
+        <div className="spinner-container">
+          <div id="loader"></div>
+        </div>
+      );
+    }
+
+    const jokes = this.state.jokes.sort((a,b)=> b.score - a.score);
 
     return (
       <div className="joke-list">
@@ -57,7 +86,7 @@ class JokeList extends Component {
           <div>
             <h1>Dad Jokes</h1>
             <img src="https://assets.dryicons.com/uploads/icon/svg/8927/0eb14c71-38f2-433a-bfc8-23d9c99b3647.svg" alt="laughing smiling face"/>
-            <button>Fetch Icons</button>
+            <button onClick={this.handleClick}>More Jokes</button>
           </div>
         </div>
         <ul className="joke-list-jokes">
@@ -71,7 +100,7 @@ class JokeList extends Component {
           ))}
         </ul>
       </div>
-     );
+    );
   }
 
 }
